@@ -3,7 +3,7 @@ import { paths } from './paths';
 import { Roles } from '../const';
 import { routesConfig } from './routesConfig';
 import { useEffect } from 'react';
-import { useAppSelector } from '../redux/store';
+// import { useAppSelector } from '../redux/store';
 import {
   Route,
   Routes as Switch,
@@ -12,7 +12,7 @@ import {
 } from 'react-router-dom';
 
 export const Routes = () => {
-  const { user } = useAppSelector();
+  // const { user } = useAppSelector();
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -21,9 +21,9 @@ export const Routes = () => {
     const roles =
       routesConfig.find((item) => item.path === pathname)?.roles || [];
 
-    !user._id && roles?.includes(Roles.USER) && navigate(paths.login);
-    user._id && roles?.includes(Roles.NOT_LOGGED) && navigate(paths.profile);
-  }, [location.pathname, user._id]);
+    // !user._id && roles?.includes(Roles.USER) && navigate(paths.login);
+    // user._id && roles?.includes(Roles.NOT_LOGGED) && navigate(paths.profile);
+  }, [location.pathname]);
 
   return (
     <Layout>

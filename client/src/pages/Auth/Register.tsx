@@ -2,22 +2,22 @@ import { Button } from '../../components/Global/Button/Button';
 import { Container, Title } from './Auth.styled';
 import { Form } from '../../components/Global/Form/Form';
 import { paths } from '../../routes/paths';
-import { setUser } from '../../redux/slices/user';
+// import { setUser } from '../../redux/slices/user';
 import { TextInput } from '../../components/Global/inputs/TextInput/TextInput';
 import { toastNotify } from '../../utils/toast/toastNotify';
-import { useAppSelector } from '../../redux/store';
-import { useDispatch } from 'react-redux';
+// import { useAppSelector } from '../../redux/store';
+// import { useDispatch } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import { Navigate } from 'react-router-dom';
-import { useRegisterMutation } from '../../redux/apiSlices/user';
+// import { useRegisterMutation } from '../../redux/apiSlices/user';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 
 export const Register = () => {
-  const dispatch = useDispatch();
-  const { user } = useAppSelector();
+  // const dispatch = useDispatch();
+  // const { user } = useAppSelector();
 
-  const [signUp] = useRegisterMutation();
+  // const [signUp] = useRegisterMutation();
 
   const {
     formState: { errors, isValid, isDirty },
@@ -36,13 +36,13 @@ export const Register = () => {
   });
 
   const onSubmit = handleSubmit((data) => {
-    signUp(data)
-      .unwrap()
-      .then((payload) => payload && dispatch(setUser(payload)))
-      .catch((error) => toastNotify(error));
+    // signUp(data)
+    //   .unwrap()
+    //   .then((payload) => payload && dispatch(setUser(payload)))
+    //   .catch((error) => toastNotify(error));
   });
 
-  if (user._id) return <Navigate to={paths.profile} />;
+  // if (user._id) return <Navigate to={paths.profile} />;
 
   return (
     <Container>

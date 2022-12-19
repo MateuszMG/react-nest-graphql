@@ -1,9 +1,5 @@
-import { logout } from '../../redux/slices/user';
 import { paths } from '../../routes/paths';
 import { separateString } from '../../helpers/strings';
-import { useAppSelector } from '../../redux/store';
-import { useDispatch } from 'react-redux';
-import { useLogoutMutation } from '../../redux/apiSlices/user';
 import { useNavigate } from 'react-router-dom';
 import {
   AuthLinksWrapper,
@@ -23,12 +19,7 @@ const NavigationLink = ({ path }: NavigationLinkProps) => (
 );
 
 export const Navigation = () => {
-  const { user } = useAppSelector();
-  const dispatch = useDispatch();
-
   const navigate = useNavigate();
-
-  const [logoutApi] = useLogoutMutation();
 
   return (
     <Nav>
@@ -36,13 +27,13 @@ export const Navigation = () => {
         <NavigationLink path={paths.home} />
 
         <AuthLinksWrapper>
-          {user._id ? (
+          {false ? (
             <>
               <PersonIcon onClick={() => navigate(paths.profile)} />
               <LogoutIcon
                 onClick={() => {
-                  logoutApi(user._id!);
-                  dispatch(logout());
+                  // logoutApi(user._id!);
+                  // dispatch(logout());
                 }}
               />
             </>

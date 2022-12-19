@@ -2,22 +2,22 @@ import { Button } from '../../components/Global/Button/Button';
 import { Container, Title } from './Auth.styled';
 import { Form } from '../../components/Global/Form/Form';
 import { paths } from '../../routes/paths';
-import { setUser } from '../../redux/slices/user';
+// import { setUser } from '../../redux/slices/user';
 import { TextInput } from '../../components/Global/inputs/TextInput/TextInput';
 import { toastNotify } from '../../utils/toast/toastNotify';
-import { useAppSelector } from '../../redux/store';
-import { useDispatch } from 'react-redux';
+// import { useAppSelector } from '../../redux/store';
+// import { useDispatch } from 'react-redux';
 import { useForm } from 'react-hook-form';
-import { useLoginMutation } from '../../redux/apiSlices/user';
+// import { useLoginMutation } from '../../redux/apiSlices/user';
 import { Navigate } from 'react-router-dom';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 
 export const Login = () => {
-  const dispatch = useDispatch();
-  const { user } = useAppSelector();
+  // const dispatch = useDispatch();
+  // const { user } = useAppSelector();
 
-  const [signIn, { isLoading }] = useLoginMutation();
+  // const [signIn, { isLoading }] = useLoginMutation();
 
   const {
     formState: { errors, isValid, isDirty },
@@ -34,13 +34,13 @@ export const Login = () => {
   });
 
   const onSubmit = handleSubmit((data) => {
-    signIn(data)
-      .unwrap()
-      .then((payload) => payload && dispatch(setUser(payload)))
-      .catch((error) => toastNotify(error));
+    // signIn(data)
+    //   .unwrap()
+    //   .then((payload) => payload && dispatch(setUser(payload)))
+    //   .catch((error) => toastNotify(error));
   });
 
-  if (user._id) return <Navigate to={paths.profile} />;
+  // if (user._id) return <Navigate to={paths.profile} />;
 
   return (
     <Container>
@@ -65,7 +65,7 @@ export const Login = () => {
         <Form.ButtonsWrapper>
           <Button
             data-testid={'button_reset'}
-            isLoading={isLoading}
+            // isLoading={isLoading}
             type={'reset'}
           >
             Reset
@@ -73,7 +73,7 @@ export const Login = () => {
           <Button
             data-testid={'button_submit'}
             disabled={!isValid && !isDirty}
-            isLoading={isLoading}
+            // isLoading={isLoading}
             type={'submit'}
           >
             Login

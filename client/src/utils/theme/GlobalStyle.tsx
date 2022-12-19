@@ -28,22 +28,5 @@ export const GlobalStyle = createGlobalStyle(
       color: inherit;
       text-decoration: none;
     }
-
-    ///////////////////////////////////
-    ///////////////////////////////////   react-select
-    ///////////////////////////////////
-
-    .global-select__control {
-      background-color: transparent !important ;
-      border-color: ${colors.primary} !important;
-    }
-
-    .global-select__single-value {
-      color: ${colors.primary} !important;
-    }
-    .global-select__menu {
-      background-color: ${colors.backgroundPrimary} !important;
-      color: ${colors.primary} !important;
-    }
   `,
 );

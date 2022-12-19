@@ -1,0 +1,40 @@
+overwrite: true
+schema: "http://localhost:4000/graphql"
+documents: "src/graphql/**/*.{gql,ts,tsx}"
+generates:
+  src/generated/graphql.tsx:
+    plugins:
+      - "typescript"
+      - "typescript-operations"
+      - "typescript-react-apollo"
+# - "typescript-urql"
+#- "typescript-react-apollo"
+
+# https://www.graphql-code-generator.com/docs/config-reference/documents-field
+
+# Document Scanner#
+
+# GraphQL Code Generator has a built-in document scanner, which means you can specify a .graphql file or code files containing GraphQL documents (ex: .tsx).
+
+# You can tell it to find documents in TypeScript files:
+# schema: http://server1.com/graphql
+# documents: 'src/**/!(*.d).{ts,tsx}'
+
+# documents:
+#   - my-query.graphql
+#   - my-other-query.graphql
+
+#     Glob Expression#
+
+# You can specify a Glob expression in order to load multiple files:
+# documents: './src/**/*.graphql'
+
+# You can also specify multiple Glob expressions as an array:
+# documents:
+#   - './src/dir1/*.graphql'
+#   - './src/dir2/*.graphql'
+
+# You can specify files to exclude by prefixing the Glob expression with !:
+# documents:
+#   - './src/**/*.graphql'
+#   - '!*.generated.graphql'
