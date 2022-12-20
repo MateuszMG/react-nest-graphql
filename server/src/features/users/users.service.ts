@@ -10,12 +10,8 @@ import { Model } from 'mongoose';
 export class UsersService {
   constructor(@InjectModel('users') private usersModel: Model<UserDocument>) {}
 
-  async findOne(email: string) {
-    return await this.usersModel.findOne({ email }).select(['-__v']);
-  }
-
   async validateUser(email: string, password: string): Promise<User> {
-    const user = await this.findOne(email);
+    const user = await this.usersModel.findOne({ email }).select(['-__v']);
     if (!user) return null;
     const isMatch = await bcrypt.compare(password, user?.password);
     if (!isMatch) return null;

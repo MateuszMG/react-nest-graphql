@@ -7,7 +7,7 @@ type AccessToken {
 }
 
 type DecodedUser {
-  id: Float!
+  id: String!
   username: String!
   email: String!
   roles: [String!]!

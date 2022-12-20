@@ -10,7 +10,7 @@ export class AccessToken {
 @ObjectType()
 export class DecodedUser {
   @Field()
-  id: number;
+  id: string;
   @Field()
   username: string;
   @Field()

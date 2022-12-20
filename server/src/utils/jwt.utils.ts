@@ -12,7 +12,7 @@ export interface DataToJWT {
 }
 
 export const createAccessToken = (payload: DataToJWT) =>
-  jwt.sign(payload, accessTokenSecret, { expiresIn: '1m' });
+  jwt.sign(payload, accessTokenSecret, { expiresIn: '60m' });
 
 export const createRefreshToken = (payload: DataToJWT) =>
   jwt.sign(payload, refreshTokenSecret, { expiresIn: '1y' });

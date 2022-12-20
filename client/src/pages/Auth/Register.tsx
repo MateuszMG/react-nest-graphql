@@ -9,6 +9,7 @@ import { Navigate, useNavigate } from 'react-router-dom';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { useRegisterMutation } from '../../generated/graphql';
+import { addToLS } from '../../helpers/localStorage';
 
 export const Register = () => {
   const navigate = useNavigate();
@@ -36,7 +37,10 @@ export const Register = () => {
 
     signUp({
       variables: { registerInput },
-      onCompleted: (data) => navigate(paths.profile),
+      onCompleted: (data) => {
+        addToLS('accessToken', data.register.accessToken);
+        navigate(paths.profile);
+      },
       onError: (error) => console.log('error', { error }),
     });
   });

@@ -2,7 +2,7 @@ import { setContext } from '@apollo/client/link/context';
 // import { onError } from '@apollo/client/link/error';
 import { getMainDefinition } from '@apollo/client/utilities';
 import { getFromTheLS } from './helpers/localStorage';
-import { onError } from 'apollo-link-error';
+// import { onError } from 'apollo-link-error';
 import {
   ApolloClient,
   ApolloLink,
@@ -79,8 +79,11 @@ export const client = new ApolloClient({
 
   cache: new InMemoryCache({
     typePolicies: {
-      Person: {
-        keyFields: ['id', 'username', 'email', 'roles', 'accessToken'],
+      User: {
+        fields: {
+          username: (_, { readField }) => readField('username'),
+          email: (_, { readField }) => readField('email'),
+        },
       },
     },
   }),

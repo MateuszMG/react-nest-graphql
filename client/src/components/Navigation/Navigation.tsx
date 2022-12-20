@@ -9,6 +9,7 @@ import {
   Nav,
   PersonIcon,
 } from './Navigation.styled';
+import { useProfileQuery } from '../../generated/graphql';
 
 interface NavigationLinkProps {
   path: string;
@@ -21,13 +22,15 @@ const NavigationLink = ({ path }: NavigationLinkProps) => (
 export const Navigation = () => {
   const navigate = useNavigate();
 
+  const { data } = useProfileQuery();
+
   return (
     <Nav>
       <List>
         <NavigationLink path={paths.home} />
 
         <AuthLinksWrapper>
-          {false ? (
+          {data?.profile.id ? (
             <>
               <PersonIcon onClick={() => navigate(paths.profile)} />
               <LogoutIcon
