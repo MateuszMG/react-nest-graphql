@@ -1,0 +1,35 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type AccessToken {
+  accessToken: String!
+}
+
+type DecodedUser {
+  id: Float!
+  username: String!
+  email: String!
+  roles: [String!]!
+}
+
+type Query {
+  profile: DecodedUser!
+}
+
+type Mutation {
+  login(loginInput: LoginInput!): AccessToken!
+  register(registerInput: RegisterInput!): AccessToken!
+}
+
+input LoginInput {
+  email: String!
+  password: String!
+}
+
+input RegisterInput {
+  username: String!
+  email: String!
+  password: String!
+  confirmPassword: String!
+}

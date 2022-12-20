@@ -2,22 +2,17 @@ import { Button } from '../../components/Global/Button/Button';
 import { Container, Title } from './Auth.styled';
 import { Form } from '../../components/Global/Form/Form';
 import { paths } from '../../routes/paths';
-// import { setUser } from '../../redux/slices/user';
 import { TextInput } from '../../components/Global/inputs/TextInput/TextInput';
 import { toastNotify } from '../../utils/toast/toastNotify';
-// import { useAppSelector } from '../../redux/store';
-// import { useDispatch } from 'react-redux';
 import { useForm } from 'react-hook-form';
-// import { useLoginMutation } from '../../redux/apiSlices/user';
-import { Navigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
+import { useLoginMutation } from '../../generated/graphql';
 
 export const Login = () => {
-  // const dispatch = useDispatch();
-  // const { user } = useAppSelector();
-
-  // const [signIn, { isLoading }] = useLoginMutation();
+  const [signIn] = useLoginMutation();
+  const navigate = useNavigate();
 
   const {
     formState: { errors, isValid, isDirty },
@@ -27,17 +22,18 @@ export const Login = () => {
   } = useForm<LoginSchema>({
     mode: 'onChange',
     resolver: yupResolver(loginValidation),
-    // defaultValues: {
-    //   email: 'your.email@gmail.com',
-    //   password: 'StrongPassword1!',
-    // },
+    defaultValues: {
+      email: 'your.email@gmail.com',
+      password: 'StrongPassword1!',
+    },
   });
 
-  const onSubmit = handleSubmit((data) => {
-    // signIn(data)
-    //   .unwrap()
-    //   .then((payload) => payload && dispatch(setUser(payload)))
-    //   .catch((error) => toastNotify(error));
+  const onSubmit = handleSubmit((loginInput) => {
+    signIn({
+      variables: { loginInput },
+      onCompleted: (data) => navigate(paths.profile),
+      onError: (error) => console.log('error', { error }),
+    });
   });
 
   // if (user._id) return <Navigate to={paths.profile} />;

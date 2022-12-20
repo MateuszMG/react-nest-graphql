@@ -7,7 +7,7 @@
     "start": "PORT=3011 BROWSER=none react-scripts start",
     "format": "prettier --write 'src/**/*.{ts,tsx,css,md,json}' --config ./.prettierrc",
     "build": "react-scripts build",
-    "cypress": "cypress open",
+    "gen": "graphql-codegen --config codegen.yml",
     "test": "react-scripts test"
   },
   "dependencies": {
