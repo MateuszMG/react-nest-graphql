@@ -11,8 +11,9 @@ import * as yup from 'yup';
 import { useLoginMutation } from '../../generated/graphql';
 
 export const Login = () => {
-  const [signIn] = useLoginMutation();
   const navigate = useNavigate();
+
+  const [signIn, { loading }] = useLoginMutation();
 
   const {
     formState: { errors, isValid, isDirty },
@@ -61,7 +62,7 @@ export const Login = () => {
         <Form.ButtonsWrapper>
           <Button
             data-testid={'button_reset'}
-            // isLoading={isLoading}
+            isLoading={loading}
             type={'reset'}
           >
             Reset
@@ -69,7 +70,7 @@ export const Login = () => {
           <Button
             data-testid={'button_submit'}
             disabled={!isValid && !isDirty}
-            // isLoading={isLoading}
+            isLoading={loading}
             type={'submit'}
           >
             Login

@@ -2,9 +2,10 @@ import styled, { css } from 'styled-components';
 
 export const ButtonTag = styled.button<{
   disabled?: boolean;
+  isError?: boolean;
   isLoading?: boolean;
 }>(
-  ({ theme: { colors }, disabled, isLoading }) => css`
+  ({ theme: { colors }, disabled, isError, isLoading }) => css`
     background-color: ${colors.backgroundSecondary};
     border-radius: 8px;
     border: none;
@@ -23,7 +24,7 @@ export const ButtonTag = styled.button<{
       box-shadow: 0 0 3px 1px ${colors.primary};
     }
 
-    ${disabled &&
+    ${(disabled || isError || isLoading) &&
     css`
       box-shadow: none;
 

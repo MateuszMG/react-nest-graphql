@@ -1,7 +1,8 @@
 import { setContext } from '@apollo/client/link/context';
-import { onError } from '@apollo/client/link/error';
+// import { onError } from '@apollo/client/link/error';
 import { getMainDefinition } from '@apollo/client/utilities';
 import { getFromTheLS } from './helpers/localStorage';
+import { onError } from 'apollo-link-error';
 import {
   ApolloClient,
   ApolloLink,
@@ -26,6 +27,46 @@ const authLink = setContext((_, { headers }) => {
   };
 });
 
+// const errorLink = onError((error) => {
+//   const {
+//     graphQLErrors = [],
+//     networkError = {},
+//     operation = {},
+//     forward,
+//   } = error || {};
+//   // const { getContext } = operation || {};
+//   // const { scope, headers = {} } = getContext() || {};
+//   const { message: networkErrorMessage = '' } = networkError || {};
+//   const { message: graphQLErrorsMessage = '' } = graphQLErrors || [];
+//   const graphQLFailed = (message) =>
+//     typeof message === 'string' && message.startsWith('Problem with graphql');
+//   const networkFailed = (message) =>
+//     typeof message === 'string' &&
+//     message.startsWith('NetworkError when attempting to fetch resource');
+
+//   if (graphQLFailed(graphQLErrorsMessage)) return forward(operation);
+//   if (networkFailed(networkErrorMessage)) return forward(operation);
+// });
+
+// const errorLink = onError(
+//   ({ graphQLErrors, networkError, operation, forward }) => {
+//     console.info('Error Link has caught an error.');
+//     if (graphQLErrors) {
+//       console.error('graphQLErrors:', graphQLErrors);
+//       // Retry... not the issue here, everything happens in networkError.
+//     }
+//     if (networkError) {
+//       const err = networkError as any;
+//       const code = err && err.extensions && err.extensions.code;
+//       if (code === 'start-failed') {
+//         console.error('Network: websocket start failed:', err.message);
+//         return reauthenticateResetWsAndRetry(operation, forward);
+//       } // else
+//       console.error('[Network error]:', networkError);
+//     }
+//   },
+// );
+
 const httpLink = createHttpLink({
   uri: 'http://localhost:4000/graphql',
   credentials: 'same-origin',
@@ -36,7 +77,13 @@ export const client = new ApolloClient({
   //authLink.concat(httpLink),  //from([httpLink, authLink, errorLink]),
   // link: authLink.concat(httpLink),
 
-  cache: new InMemoryCache(),
+  cache: new InMemoryCache({
+    typePolicies: {
+      Person: {
+        keyFields: ['id', 'username', 'email', 'roles', 'accessToken'],
+      },
+    },
+  }),
 });
 
 // const timeStartLink = new ApolloLink((operation, forward) => {

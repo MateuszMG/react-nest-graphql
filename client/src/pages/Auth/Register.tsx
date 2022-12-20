@@ -11,8 +11,9 @@ import * as yup from 'yup';
 import { useRegisterMutation } from '../../generated/graphql';
 
 export const Register = () => {
-  const [signUp] = useRegisterMutation();
   const navigate = useNavigate();
+
+  const [signUp, { loading }] = useRegisterMutation();
 
   const {
     formState: { errors, isValid, isDirty },
@@ -74,8 +75,14 @@ export const Register = () => {
           type={'password'}
         />
         <Form.ButtonsWrapper>
-          <Button type={'reset'}>Reset</Button>
-          <Button disabled={!isValid && !isDirty} type={'submit'}>
+          <Button isLoading={loading} type={'reset'}>
+            Reset
+          </Button>
+          <Button
+            isLoading={loading}
+            disabled={!isValid && !isDirty}
+            type={'submit'}
+          >
             Register
           </Button>
         </Form.ButtonsWrapper>
