@@ -2,6 +2,9 @@ import { InMemoryCache } from '@apollo/client';
 
 export const cache = new InMemoryCache({
   typePolicies: {
+    Todo: {
+      keyFields: ['title', 'description', 'done', 'id'],
+    },
     // Mutation:{
     //   fields:{
     //     addProduct:{

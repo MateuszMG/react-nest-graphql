@@ -1,3 +1,4 @@
+import { cache } from '../../../client/cache';
 import { Button } from '../../../components/Global/Button/Button';
 import { Wrapper } from '../../../components/Global/Form/Form.styled';
 import { CheckboxInput } from '../../../components/Global/inputs/CheckboxInput/CheckboxInput';
@@ -39,13 +40,30 @@ export const ProductList = () => {
 
           <ButtonsWrapper>
             <CheckboxInput label={'Active'} defaultChecked={item.active} />
-            <Button>Edit</Button>
             <Button
-              onClick={() =>
-                deleteProduct({
-                  variables: { input: { id: item.id } },
-                  onError: (err) => console.log('err', { err }),
-                })
+              type={'button'}
+              onClick={() => {
+                console.log('item', item);
+
+                console.log(
+                  '111',
+                  cache.identify({
+                    __typename: item.__typename,
+                    __ref: item.id,
+                  }),
+                );
+              }}
+            >
+              Edit
+            </Button>
+            <Button
+              type={'button'}
+              onClick={
+                () => {}
+                // deleteProduct({
+                //   variables: { input: { id: item.id } },
+                //   onError: (err) => console.log('err', { err }),
+                // })
               }
             >
               Delete

@@ -31,23 +31,6 @@ const authLink = setContext((_, { headers }) => {
   };
 });
 
-// export const USER_DATA = gql`
-//   query UserData {
-//     id
-//     username
-//     email
-//     roles
-//     exp
-//     iat
-//     accessToken
-//   }
-// `;
-
-// cache.writeQuery({
-//   query: USER_DATA,
-//   data: handleAccessToken(getFromTheLS('accessToken')),
-// });
-
 const errorLink = onError(
   ({ graphQLErrors, networkError, operation, forward }) => {
     if (graphQLErrors) {
@@ -77,14 +60,6 @@ const httpLink = createHttpLink({
   credentials: 'same-origin',
 });
 
-// const  logout = logoutLink({
-//   onLogout: () => {
-//       if (!logoutProcessingVar()) {
-//           AuthService.logout({ logoutWithRedirectLink: true });
-//       }
-//   },
-// })
-
 export const SET_NEW_PRODUCT = gql`
   mutation SetNewProduct($product: Product) {
     setNewProduct(product: $product) @client
@@ -93,10 +68,8 @@ export const SET_NEW_PRODUCT = gql`
 
 export const client = new ApolloClient({
   link: from([authLink, errorLink, httpLink]),
-  //authLink.concat(httpLink),  //from([httpLink, authLink, errorLink]),
-  // link: authLink.concat(httpLink),
-
   cache,
+
   // resolvers: {
   //   Mutation: {
   //     setNewProduct: (_root, variables: Product, { cache }) => {
@@ -174,39 +147,3 @@ export const client = new ApolloClient({
 //     },
 //   },
 // },
-
-// const timeStartLink = new ApolloLink((operation, forward) => {
-//   operation.setContext({ start: new Date() });
-//   return forward(operation);
-// });
-
-// const directionalLink = createHttpLink({
-//   uri: 'http://localhost:4000/graphql',
-//   credentials: 'include',
-// });
-
-// const errorLink = onError(({ graphQLErrors, networkError }) => {
-//   if (graphQLErrors)
-//     graphQLErrors.forEach(({ message }) =>
-//       console.log(`[GraphQL error]: Message: ${message}`),
-//     );
-
-//   if (networkError) console.log(`[Network error]: ${networkError}`);
-// });
-
-// const httpLink = new HttpLink({
-//   uri: 'http://localhost:4000/graphql',
-// });
-
-// const splitLink = split(({ query }) => {
-//   const definition = getMainDefinition(query);
-//   return (
-//     definition.kind === 'OperationDefinition' &&
-//     definition.operation === 'subscription'
-//   );
-// }, httpLink);
-
-// export const client = new ApolloClient({
-//   link: from([authLink, errorLink, httpLink]),
-//   cache: new InMemoryCache(),
-// });
