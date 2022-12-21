@@ -2,10 +2,10 @@ import styled, { css } from 'styled-components';
 
 export const ButtonTag = styled.button<{
   disabled?: boolean;
-  isError?: boolean;
-  isLoading?: boolean;
+  error?: boolean;
+  loading?: boolean;
 }>(
-  ({ theme: { colors }, disabled, isError, isLoading }) => css`
+  ({ theme: { colors }, disabled, error, loading }) => css`
     background-color: ${colors.backgroundSecondary};
     border-radius: 8px;
     border: none;
@@ -16,15 +16,17 @@ export const ButtonTag = styled.button<{
     margin: 6px 12px;
     padding: 8px 32px;
     transition: 0.3s;
+    white-space: nowrap;
 
     &:hover {
       box-shadow: 2px 2px 3px 3px ${colors.primary};
     }
+
     &:focus {
       box-shadow: 0 0 3px 1px ${colors.primary};
     }
 
-    ${(disabled || isError || isLoading) &&
+    ${(disabled || error || loading) &&
     css`
       box-shadow: none;
 

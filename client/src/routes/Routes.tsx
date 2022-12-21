@@ -1,9 +1,9 @@
+import { useEffect } from 'react';
 import { Layout } from '../components/Layout/Layout';
 import { paths } from './paths';
 import { Roles } from '../const';
 import { routesConfig } from './routesConfig';
-import { useEffect } from 'react';
-// import { useAppSelector } from '../redux/store';
+import { useAuth } from '../hooks/useAuth';
 import {
   Route,
   Routes as Switch,
@@ -12,7 +12,7 @@ import {
 } from 'react-router-dom';
 
 export const Routes = () => {
-  // const { user } = useAppSelector();
+  const { user } = useAuth();
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -21,8 +21,8 @@ export const Routes = () => {
     const roles =
       routesConfig.find((item) => item.path === pathname)?.roles || [];
 
-    // !user._id && roles?.includes(Roles.USER) && navigate(paths.login);
-    // user._id && roles?.includes(Roles.NOT_LOGGED) && navigate(paths.profile);
+    !user?.id && roles?.includes(Roles.USER) && navigate(paths.login);
+    user?.id && roles?.includes(Roles.NOT_LOGGED) && navigate(paths.profile);
   }, [location.pathname]);
 
   return (

@@ -1,19 +1,18 @@
 import { Button } from '../../components/Global/Button/Button';
 import { Container, Title } from './Auth.styled';
 import { Form } from '../../components/Global/Form/Form';
+import { Navigate, useNavigate } from 'react-router-dom';
 import { paths } from '../../routes/paths';
 import { TextInput } from '../../components/Global/inputs/TextInput/TextInput';
-import { toastNotify } from '../../utils/toast/toastNotify';
+import { useAuth } from '../../hooks/useAuth';
 import { useForm } from 'react-hook-form';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { useLoginMutation } from '../../generated/types';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-import { useLoginMutation } from '../../generated/graphql';
-import { addToLS } from '../../helpers/localStorage';
 
 export const Login = () => {
+  const { user, setUser } = useAuth();
   const navigate = useNavigate();
-
   const [signIn, { loading }] = useLoginMutation();
 
   const {
@@ -34,14 +33,14 @@ export const Login = () => {
     signIn({
       variables: { loginInput },
       onCompleted: (data) => {
-        addToLS('accessToken', data.login.accessToken);
+        setUser(data.login.accessToken);
         navigate(paths.profile);
       },
       onError: (error) => console.log('error', { error }),
     });
   });
 
-  // if (user._id) return <Navigate to={paths.profile} />;
+  if (user.id) return <Navigate to={paths.profile} />;
 
   return (
     <Container>
@@ -64,17 +63,13 @@ export const Login = () => {
           type={'password'}
         />
         <Form.ButtonsWrapper>
-          <Button
-            data-testid={'button_reset'}
-            isLoading={loading}
-            type={'reset'}
-          >
+          <Button data-testid={'button_reset'} loading={loading} type={'reset'}>
             Reset
           </Button>
           <Button
             data-testid={'button_submit'}
             disabled={!isValid && !isDirty}
-            isLoading={loading}
+            loading={loading}
             type={'submit'}
           >
             Login

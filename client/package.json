@@ -7,18 +7,23 @@
     "start": "PORT=3011 BROWSER=none react-scripts start",
     "format": "prettier --write 'src/**/*.{ts,tsx,css,md,json}' --config ./.prettierrc",
     "build": "react-scripts build",
-    "gen": "graphql-codegen --config codegen.yml",
+    "gen": "graphql-code-generator --config codegen.ts",
+    "gen:yml": "graphql-codegen --config codegen.yml",
     "test": "react-scripts test"
   },
   "dependencies": {
     "@apollo/client": "^3.7.2",
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.5",
+    "@graphql-codegen/client-preset": "^1.2.3",
+    "@graphql-codegen/import-types-preset": "^2.2.6",
+    "@graphql-codegen/typed-document-node": "^2.3.10",
     "@hookform/resolvers": "^2.9.10",
     "@mui/icons-material": "^5.11.0",
     "@mui/material": "^5.11.0",
     "apollo": "^2.34.0",
     "faker": "^6.6.6",
+    "graphql-code-generator": "^0.18.2",
     "jwt-decode": "^3.1.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -29,11 +34,13 @@
     "react-toastify": "^9.1.1",
     "styled-components": "^5.3.6",
     "typescript": "^4.4.2",
+    "typescript-common": "^1.0.5-beta",
     "web-vitals": "^2.1.0",
     "yup": "^0.32.11"
   },
   "devDependencies": {
     "@graphql-codegen/cli": "^2.16.1",
+    "@graphql-codegen/near-operation-file-preset": "^2.4.4",
     "@graphql-codegen/typescript": "^2.8.5",
     "@graphql-codegen/typescript-operations": "^2.5.10",
     "@graphql-codegen/typescript-react-apollo": "^3.3.7",
@@ -47,7 +54,9 @@
     "@types/react-dom": "^18.0.0",
     "@types/styled-components": "^5.1.26",
     "@types/yup": "^0.32.0",
-    "prettier": "^2.8.1"
+    "add": "^2.0.6",
+    "prettier": "^2.8.1",
+    "yarn": "^1.22.19"
   },
   "eslintConfig": {
     "extends": [

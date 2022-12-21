@@ -4,20 +4,20 @@ import { ButtonTag } from './Button.styled';
 
 interface GlobalButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   children: string | ReactNode;
-  isError?: boolean;
-  isLoading?: boolean;
+  error?: boolean;
+  loading?: boolean;
 }
 
 export const Button = ({
   children,
   disabled,
-  isError,
-  isLoading,
+  error,
+  loading,
   ...rest
 }: GlobalButtonProps) => {
   return (
-    <ButtonTag {...rest} disabled={disabled || isLoading || isError}>
-      {isLoading ? <Loader /> : children}
+    <ButtonTag {...rest} disabled={disabled || loading || error}>
+      {loading ? <Loader /> : children}
     </ButtonTag>
   );
 };

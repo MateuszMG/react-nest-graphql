@@ -1,3 +1,4 @@
+import { useAuth } from '../../hooks/useAuth';
 import { paths } from '../../routes/paths';
 import { separateString } from '../../helpers/strings';
 import { useNavigate } from 'react-router-dom';
@@ -9,7 +10,6 @@ import {
   Nav,
   PersonIcon,
 } from './Navigation.styled';
-import { useProfileQuery } from '../../generated/graphql';
 
 interface NavigationLinkProps {
   path: string;
@@ -20,25 +20,21 @@ const NavigationLink = ({ path }: NavigationLinkProps) => (
 );
 
 export const Navigation = () => {
+  const { logout, user } = useAuth();
   const navigate = useNavigate();
-
-  const { data } = useProfileQuery();
 
   return (
     <Nav>
       <List>
         <NavigationLink path={paths.home} />
 
+        {user.id && <NavigationLink path={paths.products} />}
+
         <AuthLinksWrapper>
-          {data?.profile.id ? (
+          {user.id ? (
             <>
               <PersonIcon onClick={() => navigate(paths.profile)} />
-              <LogoutIcon
-                onClick={() => {
-                  // logoutApi(user._id!);
-                  // dispatch(logout());
-                }}
-              />
+              <LogoutIcon onClick={() => logout()} />
             </>
           ) : (
             <>

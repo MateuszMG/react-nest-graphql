@@ -1,17 +1,17 @@
 import { Button } from '../../components/Global/Button/Button';
 import { Container, Title } from './Auth.styled';
 import { Form } from '../../components/Global/Form/Form';
+import { Navigate, useNavigate } from 'react-router-dom';
 import { paths } from '../../routes/paths';
 import { TextInput } from '../../components/Global/inputs/TextInput/TextInput';
-import { toastNotify } from '../../utils/toast/toastNotify';
+import { useAuth } from '../../hooks/useAuth';
 import { useForm } from 'react-hook-form';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { useRegisterMutation } from '../../generated/types';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-import { useRegisterMutation } from '../../generated/graphql';
-import { addToLS } from '../../helpers/localStorage';
 
 export const Register = () => {
+  const { user, setUser } = useAuth();
   const navigate = useNavigate();
 
   const [signUp, { loading }] = useRegisterMutation();
@@ -33,19 +33,17 @@ export const Register = () => {
   });
 
   const onSubmit = handleSubmit((registerInput) => {
-    console.log('registerInput', registerInput);
-
     signUp({
       variables: { registerInput },
       onCompleted: (data) => {
-        addToLS('accessToken', data.register.accessToken);
+        setUser(data.register.accessToken);
         navigate(paths.profile);
       },
       onError: (error) => console.log('error', { error }),
     });
   });
 
-  // if (data?.register.) return <Navigate to={paths.profile} />;
+  if (user.id) return <Navigate to={paths.profile} />;
 
   return (
     <Container>
@@ -79,11 +77,11 @@ export const Register = () => {
           type={'password'}
         />
         <Form.ButtonsWrapper>
-          <Button isLoading={loading} type={'reset'}>
+          <Button loading={loading} type={'reset'}>
             Reset
           </Button>
           <Button
-            isLoading={loading}
+            loading={loading}
             disabled={!isValid && !isDirty}
             type={'submit'}
           >

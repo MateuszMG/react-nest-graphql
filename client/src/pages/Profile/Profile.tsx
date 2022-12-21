@@ -1,13 +1,11 @@
-import { useProfileQuery } from '../../generated/graphql';
+import { useProfileQuery } from '../../generated/types';
 
-interface ProfileProps {}
-
-export const Profile = ({}: ProfileProps) => {
-  const { data, loading, error } = useProfileQuery();
+export const Profile = () => {
+  const { data, loading, error, client } = useProfileQuery();
   const user = data?.profile;
-  console.log('data', data);
-  console.log('loading', loading);
-  console.log('error', error);
+  // console.log('data', data?.profile);
+  // data && (data.profile.logged = false);
+  // console.log('logged', data?.profile.logged);
 
   return (
     <div>

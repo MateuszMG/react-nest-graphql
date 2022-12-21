@@ -32,6 +32,6 @@ export const defaultInputStyle = css(
   `,
 );
 
-export const InputTag = styled.input`
+export const Input = styled.input`
   ${defaultInputStyle}
 `;

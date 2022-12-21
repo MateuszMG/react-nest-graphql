@@ -4,6 +4,7 @@ import { paths } from './paths';
 import { Profile } from '../pages/Profile/Profile';
 import { Register } from '../pages/Auth/Register';
 import { Roles } from '../const';
+import { Products } from '../pages/Products/Products';
 
 export const routesConfig = [
   {
@@ -24,6 +25,11 @@ export const routesConfig = [
   {
     component: Profile,
     path: paths.profile,
+    roles: [Roles.USER],
+  },
+  {
+    component: Products,
+    path: paths.products,
     roles: [Roles.USER],
   },
 ];

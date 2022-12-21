@@ -1,0 +1,10 @@
+fragment Product on Product {
+  id
+  title
+  description
+  image
+  price
+  quantity
+  active
+  fromBackend @client
+}

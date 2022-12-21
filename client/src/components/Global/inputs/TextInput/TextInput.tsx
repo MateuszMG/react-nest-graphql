@@ -1,6 +1,6 @@
 import { forwardRef, InputHTMLAttributes } from 'react';
 import { InputBox } from '../../InputBox/InputBox';
-import { InputTag } from './TextInput.styled';
+import { Input } from './TextInput.styled';
 
 interface TextInputProps extends InputHTMLAttributes<HTMLInputElement> {
   error?: string;
@@ -11,7 +11,7 @@ export const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
   ({ label, error, ...rest }: TextInputProps, ref) => {
     return (
       <InputBox label={label} error={error}>
-        <InputTag {...rest} ref={ref} />
+        <Input {...rest} ref={ref} />
       </InputBox>
     );
   },
