@@ -3,12 +3,14 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { UsersModule } from './features/users/users.module';
+import { UsersModule } from './features/user/user.module';
 import { decodeAccessToken } from './utils/jwt.utils';
 import { MongooseModule } from '@nestjs/mongoose';
-import { UserSchema } from './features/users/user.model';
+import { UserSchema } from './features/user/user.model';
 import { ConfigModule } from '@nestjs/config';
 import { configuration } from './config/configruration';
+import { ProductModule } from './features/product/product.module';
+import { ProductSchema } from './features/product/product.model';
 
 @Module({
   imports: [
@@ -23,7 +25,10 @@ import { configuration } from './config/configruration';
       useUnifiedTopology: true,
     }),
 
-    MongooseModule.forFeature([{ name: 'users', schema: UserSchema }]),
+    MongooseModule.forFeature([
+      { name: 'user', schema: UserSchema },
+      { name: 'product', schema: ProductSchema },
+    ]),
 
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
@@ -32,6 +37,8 @@ import { configuration } from './config/configruration';
       cors: { origin: true },
 
       context: ({ req, res }) => {
+        console.log('req', req.body);
+
         if (!req.headers?.authorization) {
           req.user = null;
         } else {
@@ -42,6 +49,7 @@ import { configuration } from './config/configruration';
       },
     }),
     UsersModule,
+    ProductModule,
   ],
   controllers: [AppController],
 

@@ -1,5 +1,5 @@
 import * as jwt from 'jsonwebtoken';
-import { UserRoles } from 'src/features/users/user.model';
+import { UserRoles } from 'src/features/user/user.model';
 
 const accessTokenSecret = 'accessTokenSecret';
 const refreshTokenSecret = 'refreshTokenSecret';

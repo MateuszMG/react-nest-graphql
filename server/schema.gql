@@ -2,6 +2,10 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type ResMessage {
+  message: String!
+}
+
 type AccessToken {
   accessToken: String!
 }
@@ -13,13 +17,28 @@ type DecodedUser {
   roles: [String!]!
 }
 
+type Product {
+  id: ID!
+  title: String!
+  description: String!
+  image: String!
+  price: Float!
+  quantity: Float!
+  active: Boolean!
+}
+
 type Query {
+  logout: ResMessage!
   profile: DecodedUser!
+  getProducts: [Product!]!
 }
 
 type Mutation {
   login(loginInput: LoginInput!): AccessToken!
   register(registerInput: RegisterInput!): AccessToken!
+  addProduct(input: ProductInput!): Product!
+  editProduct(input: EditProductInput!): Product!
+  deleteProduct(input: IdInput!): ResMessage!
 }
 
 input LoginInput {
@@ -32,4 +51,27 @@ input RegisterInput {
   email: String!
   password: String!
   confirmPassword: String!
+}
+
+input ProductInput {
+  title: String!
+  description: String!
+  image: String!
+  price: Float!
+  quantity: Float!
+  active: Boolean!
+}
+
+input EditProductInput {
+  title: String!
+  description: String!
+  image: String!
+  price: Float!
+  quantity: Float!
+  active: Boolean!
+  id: String!
+}
+
+input IdInput {
+  id: String!
 }

@@ -1,12 +1,13 @@
 import { Args, Context, Mutation, Query, Resolver } from '@nestjs/graphql';
 import Ctx from 'src/types/context.type';
+import { ResMessage } from 'src/types/object.type';
 import { LoginInput, RegisterInput } from './user.input';
 import { AccessToken, DecodedUser } from './user.object';
-import { UsersService } from './users.service';
+import { UserService } from './user.service';
 
 @Resolver(() => AccessToken)
-export class UsersResolver {
-  constructor(private userService: UsersService) {}
+export class UserResolver {
+  constructor(private userService: UserService) {}
 
   @Mutation(() => AccessToken)
   async login(@Args('loginInput') loginInput: LoginInput) {
@@ -16,6 +17,11 @@ export class UsersResolver {
   @Mutation(() => AccessToken)
   async register(@Args('registerInput') registerInput: RegisterInput) {
     return await this.userService.register(registerInput);
+  }
+
+  @Query(() => ResMessage)
+  async logout(@Context() context: Ctx) {
+    return await this.userService.logout(context);
   }
 
   @Query(() => DecodedUser || null)

@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { User } from 'src/features/users/user.model';
+import { User } from 'src/features/user/user.model';
 
 type Ctx = {
   req: Request & {

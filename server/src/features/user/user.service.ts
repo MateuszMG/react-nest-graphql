@@ -5,13 +5,14 @@ import { InjectModel } from '@nestjs/mongoose';
 import { User, UserDocument, UserRoles } from './user.model';
 import { LoginInput, RegisterInput } from './user.input';
 import { Model } from 'mongoose';
+import Ctx from 'src/types/context.type';
 
 @Injectable()
-export class UsersService {
-  constructor(@InjectModel('users') private usersModel: Model<UserDocument>) {}
+export class UserService {
+  constructor(@InjectModel('users') private userModel: Model<UserDocument>) {}
 
   async validateUser(email: string, password: string): Promise<User> {
-    const user = await this.usersModel.findOne({ email }).select(['-__v']);
+    const user = await this.userModel.findOne({ email }).select(['-__v']);
     if (!user) return null;
     const isMatch = await bcrypt.compare(password, user?.password);
     if (!isMatch) return null;
@@ -32,10 +33,11 @@ export class UsersService {
       roles,
     });
 
-    await this.usersModel.findByIdAndUpdate(id, { accessToken });
+    await this.userModel.findByIdAndUpdate(id, { accessToken });
 
     return { accessToken };
   }
+
   async register(input: RegisterInput) {
     const { username, email, password, confirmPassword } = input;
     if (password !== confirmPassword) {
@@ -44,7 +46,7 @@ export class UsersService {
 
     const hashPassword = await bcrypt.hash(password, 10);
 
-    const newUser = new this.usersModel({
+    const newUser = new this.userModel({
       username,
       email,
       password: hashPassword,
@@ -68,11 +70,19 @@ export class UsersService {
       email: newUser.email,
     });
 
-    await this.usersModel.findByIdAndUpdate(
+    await this.userModel.findByIdAndUpdate(
       { _id: newUser._id },
       { accessToken, refreshToken },
     );
 
     return { accessToken };
+  }
+
+  async logout(input: Ctx) {
+    const id = input.req.user.id;
+
+    await this.userModel.findByIdAndUpdate(id, { accessToken: '' });
+
+    return null;
   }
 }
