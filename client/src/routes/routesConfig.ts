@@ -5,11 +5,17 @@ import { Profile } from '../pages/Profile/Profile';
 import { Register } from '../pages/Auth/Register';
 import { Roles } from '../const';
 import { Todo } from '../pages/Todo/Todo';
+import { Home } from '../pages/Home/Home';
 
 export const routesConfig = [
   {
-    component: Todo,
+    component: Home,
     path: paths.home,
+    roles: [Roles.GUEST],
+  },
+  {
+    component: Todo,
+    path: paths.todo,
     roles: [Roles.GUEST],
   },
   {

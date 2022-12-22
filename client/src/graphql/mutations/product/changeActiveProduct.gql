@@ -1,0 +1,5 @@
+mutation ChangeActiveProduct($input: IdInput!) {
+  changeActiveProduct(input: $input) {
+    ...ResMessage
+  }
+}

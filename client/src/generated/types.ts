@@ -20,6 +20,13 @@ export type AccessToken = {
   accessToken: Scalars['String'];
 };
 
+export type Book = {
+  __typename?: 'Book';
+  author: Scalars['String'];
+  id: Scalars['String'];
+  title: Scalars['String'];
+};
+
 export type DecodedUser = {
   __typename?: 'DecodedUser';
   email: Scalars['String'];
@@ -43,6 +50,11 @@ export type IdInput = {
   id: Scalars['String'];
 };
 
+export enum LocalTypenames {
+  Todo = 'Todo',
+  Todos = 'Todos'
+}
+
 export type LoginInput = {
   email: Scalars['String'];
   password: Scalars['String'];
@@ -51,8 +63,10 @@ export type LoginInput = {
 export type Mutation = {
   __typename?: 'Mutation';
   addProduct: Product;
+  changeActiveProduct: ResMessage;
+  changeTitle: Array<Book>;
   deleteProduct: ResMessage;
-  editProduct: Product;
+  editProduct: ResMessage;
   login: AccessToken;
   register: AccessToken;
 };
@@ -60,6 +74,16 @@ export type Mutation = {
 
 export type MutationAddProductArgs = {
   input: ProductInput;
+};
+
+
+export type MutationChangeActiveProductArgs = {
+  input: IdInput;
+};
+
+
+export type MutationChangeTitleArgs = {
+  id: Scalars['String'];
 };
 
 
@@ -105,7 +129,9 @@ export type ProductInput = {
 
 export type Query = {
   __typename?: 'Query';
+  getBooks: Array<Book>;
   getProducts: Array<Product>;
+  getTodos: Array<Todo>;
   logout: ResMessage;
   profile: DecodedUser;
 };
@@ -120,6 +146,19 @@ export type RegisterInput = {
 export type ResMessage = {
   __typename?: 'ResMessage';
   message: Scalars['String'];
+};
+
+export type Todo = {
+  __typename?: 'Todo';
+  description: Scalars['String'];
+  done: Scalars['Boolean'];
+  id: Scalars['String'];
+  title: Scalars['String'];
+};
+
+export type Todos = {
+  __typename?: 'Todos';
+  todos: Array<Todo>;
 };
 
 export type AccessTokenFragment = { __typename?: 'AccessToken', accessToken: string };
@@ -151,6 +190,13 @@ export type AddProductMutationVariables = Exact<{
 
 export type AddProductMutation = { __typename?: 'Mutation', addProduct: { __typename?: 'Product', id: string, title: string, description: string, image: string, price: number, quantity: number, active: boolean, fromBackend: boolean } };
 
+export type ChangeActiveProductMutationVariables = Exact<{
+  input: IdInput;
+}>;
+
+
+export type ChangeActiveProductMutation = { __typename?: 'Mutation', changeActiveProduct: { __typename?: 'ResMessage', message: string } };
+
 export type DeleteProductMutationVariables = Exact<{
   input: IdInput;
 }>;
@@ -163,7 +209,7 @@ export type EditProductMutationVariables = Exact<{
 }>;
 
 
-export type EditProductMutation = { __typename?: 'Mutation', editProduct: { __typename?: 'Product', id: string, title: string, description: string, image: string, price: number, quantity: number, active: boolean, fromBackend: boolean } };
+export type EditProductMutation = { __typename?: 'Mutation', editProduct: { __typename?: 'ResMessage', message: string } };
 
 export type GetProductsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -179,6 +225,27 @@ export type ProfileQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type ProfileQuery = { __typename?: 'Query', profile: { __typename?: 'DecodedUser', id: string, username: string, email: string, roles: Array<string>, logged: boolean } };
+
+export type TodoFragmentFragment = { __typename?: 'Todo', id: string, title: string, description: string, done: boolean };
+
+export type GetTodosQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetTodosQuery = { __typename?: 'Query', getTodos: Array<{ __typename?: 'Todo', id: string, title: string, description: string, done: boolean }> };
+
+export type BookFragmentFragment = { __typename?: 'Book', id: string, title: string, author: string };
+
+export type GetBooksQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetBooksQuery = { __typename?: 'Query', getBooks: Array<{ __typename?: 'Book', id: string, title: string, author: string }> };
+
+export type ChangeTitleMutationVariables = Exact<{
+  id: Scalars['String'];
+}>;
+
+
+export type ChangeTitleMutation = { __typename?: 'Mutation', changeTitle: Array<{ __typename?: 'Book', id: string, title: string, author: string }> };
 
 export const AccessTokenFragmentDoc = gql`
     fragment AccessToken on AccessToken {
@@ -209,6 +276,21 @@ export const ProductFragmentDoc = gql`
 export const ResMessageFragmentDoc = gql`
     fragment ResMessage on ResMessage {
   message
+}
+    `;
+export const TodoFragmentFragmentDoc = gql`
+    fragment TodoFragment on Todo {
+  id
+  title
+  description
+  done
+}
+    `;
+export const BookFragmentFragmentDoc = gql`
+    fragment BookFragment on Book {
+  id
+  title
+  author
 }
     `;
 export const LoginDocument = gql`
@@ -310,6 +392,39 @@ export function useAddProductMutation(baseOptions?: Apollo.MutationHookOptions<A
 export type AddProductMutationHookResult = ReturnType<typeof useAddProductMutation>;
 export type AddProductMutationResult = Apollo.MutationResult<AddProductMutation>;
 export type AddProductMutationOptions = Apollo.BaseMutationOptions<AddProductMutation, AddProductMutationVariables>;
+export const ChangeActiveProductDocument = gql`
+    mutation ChangeActiveProduct($input: IdInput!) {
+  changeActiveProduct(input: $input) {
+    ...ResMessage
+  }
+}
+    ${ResMessageFragmentDoc}`;
+export type ChangeActiveProductMutationFn = Apollo.MutationFunction<ChangeActiveProductMutation, ChangeActiveProductMutationVariables>;
+
+/**
+ * __useChangeActiveProductMutation__
+ *
+ * To run a mutation, you first call `useChangeActiveProductMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useChangeActiveProductMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [changeActiveProductMutation, { data, loading, error }] = useChangeActiveProductMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useChangeActiveProductMutation(baseOptions?: Apollo.MutationHookOptions<ChangeActiveProductMutation, ChangeActiveProductMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<ChangeActiveProductMutation, ChangeActiveProductMutationVariables>(ChangeActiveProductDocument, options);
+      }
+export type ChangeActiveProductMutationHookResult = ReturnType<typeof useChangeActiveProductMutation>;
+export type ChangeActiveProductMutationResult = Apollo.MutationResult<ChangeActiveProductMutation>;
+export type ChangeActiveProductMutationOptions = Apollo.BaseMutationOptions<ChangeActiveProductMutation, ChangeActiveProductMutationVariables>;
 export const DeleteProductDocument = gql`
     mutation DeleteProduct($input: IdInput!) {
   deleteProduct(input: $input) {
@@ -346,10 +461,10 @@ export type DeleteProductMutationOptions = Apollo.BaseMutationOptions<DeleteProd
 export const EditProductDocument = gql`
     mutation EditProduct($input: EditProductInput!) {
   editProduct(input: $input) {
-    ...Product
+    ...ResMessage
   }
 }
-    ${ProductFragmentDoc}`;
+    ${ResMessageFragmentDoc}`;
 export type EditProductMutationFn = Apollo.MutationFunction<EditProductMutation, EditProductMutationVariables>;
 
 /**
@@ -478,3 +593,104 @@ export function useProfileLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<Pr
 export type ProfileQueryHookResult = ReturnType<typeof useProfileQuery>;
 export type ProfileLazyQueryHookResult = ReturnType<typeof useProfileLazyQuery>;
 export type ProfileQueryResult = Apollo.QueryResult<ProfileQuery, ProfileQueryVariables>;
+export const GetTodosDocument = gql`
+    query GetTodos {
+  getTodos {
+    ...TodoFragment
+  }
+}
+    ${TodoFragmentFragmentDoc}`;
+
+/**
+ * __useGetTodosQuery__
+ *
+ * To run a query within a React component, call `useGetTodosQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetTodosQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetTodosQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetTodosQuery(baseOptions?: Apollo.QueryHookOptions<GetTodosQuery, GetTodosQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetTodosQuery, GetTodosQueryVariables>(GetTodosDocument, options);
+      }
+export function useGetTodosLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetTodosQuery, GetTodosQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetTodosQuery, GetTodosQueryVariables>(GetTodosDocument, options);
+        }
+export type GetTodosQueryHookResult = ReturnType<typeof useGetTodosQuery>;
+export type GetTodosLazyQueryHookResult = ReturnType<typeof useGetTodosLazyQuery>;
+export type GetTodosQueryResult = Apollo.QueryResult<GetTodosQuery, GetTodosQueryVariables>;
+export const GetBooksDocument = gql`
+    query GetBooks {
+  getBooks @client {
+    ...BookFragment
+  }
+}
+    ${BookFragmentFragmentDoc}`;
+
+/**
+ * __useGetBooksQuery__
+ *
+ * To run a query within a React component, call `useGetBooksQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetBooksQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetBooksQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetBooksQuery(baseOptions?: Apollo.QueryHookOptions<GetBooksQuery, GetBooksQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetBooksQuery, GetBooksQueryVariables>(GetBooksDocument, options);
+      }
+export function useGetBooksLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetBooksQuery, GetBooksQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetBooksQuery, GetBooksQueryVariables>(GetBooksDocument, options);
+        }
+export type GetBooksQueryHookResult = ReturnType<typeof useGetBooksQuery>;
+export type GetBooksLazyQueryHookResult = ReturnType<typeof useGetBooksLazyQuery>;
+export type GetBooksQueryResult = Apollo.QueryResult<GetBooksQuery, GetBooksQueryVariables>;
+export const ChangeTitleDocument = gql`
+    mutation ChangeTitle($id: String!) {
+  changeTitle(id: $id) @client {
+    ...BookFragment
+  }
+}
+    ${BookFragmentFragmentDoc}`;
+export type ChangeTitleMutationFn = Apollo.MutationFunction<ChangeTitleMutation, ChangeTitleMutationVariables>;
+
+/**
+ * __useChangeTitleMutation__
+ *
+ * To run a mutation, you first call `useChangeTitleMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useChangeTitleMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [changeTitleMutation, { data, loading, error }] = useChangeTitleMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useChangeTitleMutation(baseOptions?: Apollo.MutationHookOptions<ChangeTitleMutation, ChangeTitleMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<ChangeTitleMutation, ChangeTitleMutationVariables>(ChangeTitleDocument, options);
+      }
+export type ChangeTitleMutationHookResult = ReturnType<typeof useChangeTitleMutation>;
+export type ChangeTitleMutationResult = Apollo.MutationResult<ChangeTitleMutation>;
+export type ChangeTitleMutationOptions = Apollo.BaseMutationOptions<ChangeTitleMutation, ChangeTitleMutationVariables>;

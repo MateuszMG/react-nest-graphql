@@ -37,8 +37,9 @@ type Mutation {
   login(loginInput: LoginInput!): AccessToken!
   register(registerInput: RegisterInput!): AccessToken!
   addProduct(input: ProductInput!): Product!
-  editProduct(input: EditProductInput!): Product!
+  editProduct(input: EditProductInput!): ResMessage!
   deleteProduct(input: IdInput!): ResMessage!
+  changeActiveProduct(input: IdInput!): ResMessage!
 }
 
 input LoginInput {

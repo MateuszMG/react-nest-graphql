@@ -2,11 +2,6 @@ import styled from 'styled-components';
 
 export const Wrapper = styled.div``;
 
-export const Header = styled.header`
-  display: flex;
-  justify-content: flex-end;
-`;
-
 export const Section = styled.section`
   display: flex;
   margin: 12px;

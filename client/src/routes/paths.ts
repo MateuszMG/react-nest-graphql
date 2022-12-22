@@ -5,6 +5,7 @@ export const paths = {
   register: '/register',
   profile: '/profile',
 
+  todo: '/todo',
   products: '/products',
 
   all: '*',

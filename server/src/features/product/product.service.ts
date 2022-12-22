@@ -26,13 +26,12 @@ export class ProductService {
     return newProduct;
   }
 
-  async editProduct(input: EditProductInput): Promise<Product> {
+  async editProduct(input: EditProductInput): Promise<ResMessage> {
     const { id, ...rest } = input;
 
-    const editedProduct = await this.productModel.findByIdAndUpdate(id, rest, {
-      new: true,
-    });
-    return editedProduct;
+    await this.productModel.findByIdAndUpdate(id, rest, { new: true });
+
+    return { message: 'Updated' };
   }
 
   async deleteProduct(input: IdInput): Promise<ResMessage> {
@@ -41,5 +40,14 @@ export class ProductService {
     await this.productModel.findByIdAndDelete(id);
 
     return { message: 'Deleted' };
+  }
+
+  async changeActiveProduct(input: IdInput): Promise<ResMessage> {
+    const { id } = input;
+
+    const product = await this.productModel.findById(id);
+    await this.productModel.findByIdAndUpdate(id, { active: !product.active });
+
+    return { message: 'Changed' };
   }
 }

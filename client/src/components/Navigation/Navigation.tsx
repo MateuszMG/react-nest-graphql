@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import {
   AuthLinksWrapper,
   Link,
+  LinksWrapper,
   List,
   LogoutIcon,
   Nav,
@@ -28,7 +29,10 @@ export const Navigation = () => {
       <List>
         <NavigationLink path={paths.home} />
 
-        {user.id && <NavigationLink path={paths.products} />}
+        <LinksWrapper>
+          <NavigationLink path={paths.todo} />
+          {user.id && <NavigationLink path={paths.products} />}
+        </LinksWrapper>
 
         <AuthLinksWrapper>
           {user.id ? (

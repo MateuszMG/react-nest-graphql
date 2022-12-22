@@ -29,6 +29,8 @@ export const Link = styled(RouterLink)(
   `,
 );
 
+export const LinksWrapper = styled.div``;
+
 export const AuthLinksWrapper = styled.div`
   align-items: center;
   display: flex;

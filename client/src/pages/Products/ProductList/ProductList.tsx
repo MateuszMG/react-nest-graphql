@@ -1,15 +1,10 @@
-import { cache } from '../../../client/cache';
 import { Button } from '../../../components/Global/Button/Button';
-import { Wrapper } from '../../../components/Global/Form/Form.styled';
 import { CheckboxInput } from '../../../components/Global/inputs/CheckboxInput/CheckboxInput';
-import {
-  useDeleteProductMutation,
-  useGetProductsQuery,
-} from '../../../generated/types';
+import { useProductList } from './useProductList';
+import { Wrapper } from '../../../components/Global/Form/Form.styled';
 import {
   ButtonsWrapper,
   DataWrapper,
-  Header,
   Img,
   ProductTitle,
   Section,
@@ -17,16 +12,10 @@ import {
 } from './ProductList.styled';
 
 export const ProductList = () => {
-  const [deleteProduct] = useDeleteProductMutation();
-  const { data } = useGetProductsQuery();
-  const products = data?.getProducts;
-  // console.log('pp', products && products[0]);
+  const { handleChange, handleDelete, handleEdit, products } = useProductList();
 
   return (
     <Wrapper>
-      <Header>
-        <Button>Change active</Button>
-      </Header>
       {products?.map((item) => (
         <Section key={item.id}>
           <Img src={item.image} alt={item.title} />
@@ -39,33 +28,15 @@ export const ProductList = () => {
           </DataWrapper>
 
           <ButtonsWrapper>
-            <CheckboxInput label={'Active'} defaultChecked={item.active} />
-            <Button
-              type={'button'}
-              onClick={() => {
-                console.log('item', item);
-
-                console.log(
-                  '111',
-                  cache.identify({
-                    __typename: item.__typename,
-                    __ref: item.id,
-                  }),
-                );
-              }}
-            >
+            <CheckboxInput
+              defaultChecked={item.active}
+              label={'Active'}
+              onClick={() => handleChange(item)}
+            />
+            <Button onClick={() => handleEdit(item)} type={'button'}>
               Edit
             </Button>
-            <Button
-              type={'button'}
-              onClick={
-                () => {}
-                // deleteProduct({
-                //   variables: { input: { id: item.id } },
-                //   onError: (err) => console.log('err', { err }),
-                // })
-              }
-            >
+            <Button onClick={() => handleDelete(item)} type={'button'}>
               Delete
             </Button>
           </ButtonsWrapper>

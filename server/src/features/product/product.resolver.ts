@@ -16,14 +16,12 @@ export class ProductResolver {
 
   @Mutation(() => Product)
   async addProduct(@Args('input') input: ProductInput) {
-    console.log('input', input);
-
     return await this.productService.addProduct(input);
   }
 
-  @Mutation(() => Product)
+  @Mutation(() => ResMessage)
   async editProduct(@Args('input') input: EditProductInput) {
-    return await this.productService.addProduct(input);
+    return await this.productService.editProduct(input);
   }
 
   @Mutation(() => ResMessage)
@@ -31,24 +29,8 @@ export class ProductResolver {
     return await this.productService.deleteProduct(input);
   }
 
-  //   @Query(() => Product)
-  //   async logout(@editProduct() context: Ctx) {
-  //     return await this.productService.logout(context);
-  //   }
-
-  //   @Query(() => DecodedUser || null)
-  //   async profile(@Context() context: Ctx) {
-  //     console.log('context', context.req.user);
-
-  //     if (!context.req.user) return null;
-
-  //     const { id, username, email, roles } = context.req.user;
-
-  //     return {
-  //       id,
-  //       username,
-  //       email,
-  //       roles,
-  //     };
-  //   }
+  @Mutation(() => ResMessage)
+  async changeActiveProduct(@Args('input') input: IdInput) {
+    return await this.productService.changeActiveProduct(input);
+  }
 }
