@@ -130,6 +130,7 @@ export type ProductInput = {
 export type Query = {
   __typename?: 'Query';
   getBooks: Array<Book>;
+  getHighlightedProduct: Product;
   getProducts: Array<Product>;
   getTodos: Array<Todo>;
   logout: ResMessage;
@@ -146,6 +147,11 @@ export type RegisterInput = {
 export type ResMessage = {
   __typename?: 'ResMessage';
   message: Scalars['String'];
+};
+
+export type Subscription = {
+  __typename?: 'Subscription';
+  highlightedProductUpdated?: Maybe<Product>;
 };
 
 export type Todo = {
@@ -211,6 +217,11 @@ export type EditProductMutationVariables = Exact<{
 
 export type EditProductMutation = { __typename?: 'Mutation', editProduct: { __typename?: 'ResMessage', message: string } };
 
+export type GetHighlightedProductQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetHighlightedProductQuery = { __typename?: 'Query', getHighlightedProduct: { __typename?: 'Product', id: string, title: string, description: string, image: string, price: number, quantity: number, active: boolean, fromBackend: boolean } };
+
 export type GetProductsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -225,6 +236,11 @@ export type ProfileQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type ProfileQuery = { __typename?: 'Query', profile: { __typename?: 'DecodedUser', id: string, username: string, email: string, roles: Array<string>, logged: boolean } };
+
+export type HighlightedProductUpdatedSubscriptionVariables = Exact<{ [key: string]: never; }>;
+
+
+export type HighlightedProductUpdatedSubscription = { __typename?: 'Subscription', highlightedProductUpdated?: { __typename?: 'Product', id: string, title: string, description: string, image: string, price: number, quantity: number, active: boolean, fromBackend: boolean } | null };
 
 export type TodoFragmentFragment = { __typename?: 'Todo', id: string, title: string, description: string, done: boolean };
 
@@ -491,6 +507,40 @@ export function useEditProductMutation(baseOptions?: Apollo.MutationHookOptions<
 export type EditProductMutationHookResult = ReturnType<typeof useEditProductMutation>;
 export type EditProductMutationResult = Apollo.MutationResult<EditProductMutation>;
 export type EditProductMutationOptions = Apollo.BaseMutationOptions<EditProductMutation, EditProductMutationVariables>;
+export const GetHighlightedProductDocument = gql`
+    query GetHighlightedProduct {
+  getHighlightedProduct {
+    ...Product
+  }
+}
+    ${ProductFragmentDoc}`;
+
+/**
+ * __useGetHighlightedProductQuery__
+ *
+ * To run a query within a React component, call `useGetHighlightedProductQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetHighlightedProductQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetHighlightedProductQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetHighlightedProductQuery(baseOptions?: Apollo.QueryHookOptions<GetHighlightedProductQuery, GetHighlightedProductQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetHighlightedProductQuery, GetHighlightedProductQueryVariables>(GetHighlightedProductDocument, options);
+      }
+export function useGetHighlightedProductLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetHighlightedProductQuery, GetHighlightedProductQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetHighlightedProductQuery, GetHighlightedProductQueryVariables>(GetHighlightedProductDocument, options);
+        }
+export type GetHighlightedProductQueryHookResult = ReturnType<typeof useGetHighlightedProductQuery>;
+export type GetHighlightedProductLazyQueryHookResult = ReturnType<typeof useGetHighlightedProductLazyQuery>;
+export type GetHighlightedProductQueryResult = Apollo.QueryResult<GetHighlightedProductQuery, GetHighlightedProductQueryVariables>;
 export const GetProductsDocument = gql`
     query GetProducts {
   getProducts {
@@ -593,6 +643,35 @@ export function useProfileLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<Pr
 export type ProfileQueryHookResult = ReturnType<typeof useProfileQuery>;
 export type ProfileLazyQueryHookResult = ReturnType<typeof useProfileLazyQuery>;
 export type ProfileQueryResult = Apollo.QueryResult<ProfileQuery, ProfileQueryVariables>;
+export const HighlightedProductUpdatedDocument = gql`
+    subscription HighlightedProductUpdated {
+  highlightedProductUpdated {
+    ...Product
+  }
+}
+    ${ProductFragmentDoc}`;
+
+/**
+ * __useHighlightedProductUpdatedSubscription__
+ *
+ * To run a query within a React component, call `useHighlightedProductUpdatedSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useHighlightedProductUpdatedSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useHighlightedProductUpdatedSubscription({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useHighlightedProductUpdatedSubscription(baseOptions?: Apollo.SubscriptionHookOptions<HighlightedProductUpdatedSubscription, HighlightedProductUpdatedSubscriptionVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useSubscription<HighlightedProductUpdatedSubscription, HighlightedProductUpdatedSubscriptionVariables>(HighlightedProductUpdatedDocument, options);
+      }
+export type HighlightedProductUpdatedSubscriptionHookResult = ReturnType<typeof useHighlightedProductUpdatedSubscription>;
+export type HighlightedProductUpdatedSubscriptionResult = Apollo.SubscriptionResult<HighlightedProductUpdatedSubscription>;
 export const GetTodosDocument = gql`
     query GetTodos {
   getTodos {

@@ -1,9 +1,10 @@
+import { EditProductInput, ProductInput } from './product.input';
+import { IdInput } from 'src/types/input.type';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Product, ProductDocument } from './product.model';
-import { EditProductInput, ProductInput } from './product.input';
-import { IdInput } from 'src/types/input.type';
+import { pubSub, triggerNames } from 'src/config/PubSub';
 import { ResMessage } from 'src/types/object.type';
 
 @Injectable()
@@ -49,5 +50,34 @@ export class ProductService {
     await this.productModel.findByIdAndUpdate(id, { active: !product.active });
 
     return { message: 'Changed' };
+  }
+
+  async getHighlightedProduct(): Promise<Product> {
+    const randomProduct = async () => {
+      const products = await this.productModel.find({}).limit(50);
+
+      if (products?.length)
+        return products[(Math.random() * products.length).toFixed()];
+
+      const defaultProduct: ProductInput = {
+        title: `title -- ${Date.now()}`,
+        description: `description -- ${Date.now()}`,
+        image: `image -- ${Date.now()}`,
+        price: +Date.now().toString().slice(-4),
+        quantity: +Date.now().toString().slice(-4),
+        active: true,
+      };
+
+      return await this.addProduct(defaultProduct);
+    };
+
+    setTimeout(() => {
+      this.getHighlightedProduct();
+      pubSub.publish(triggerNames.highlightedProductUpdated, {
+        highlightedProductUpdated: randomProduct(),
+      });
+    }, 5000);
+
+    return randomProduct();
   }
 }

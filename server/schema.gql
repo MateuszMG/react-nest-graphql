@@ -31,6 +31,7 @@ type Query {
   logout: ResMessage!
   profile: DecodedUser!
   getProducts: [Product!]!
+  getHighlightedProduct: Product!
 }
 
 type Mutation {
@@ -75,4 +76,8 @@ input EditProductInput {
 
 input IdInput {
   id: String!
+}
+
+type Subscription {
+  highlightedProductUpdated: Product
 }

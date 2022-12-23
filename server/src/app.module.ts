@@ -33,11 +33,16 @@ import { ProductSchema } from './features/product/product.model';
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
       autoSchemaFile: 'schema.gql',
+      subscriptions: {
+        'graphql-ws': true,
+        'subscriptions-transport-ws': true,
+      },
       playground: true,
       cors: { origin: true },
 
       context: ({ req, res }) => {
-        console.log('req', req.body);
+        if (!req) return;
+        console.log('req', req?.body);
 
         if (!req.headers?.authorization) {
           req.user = null;

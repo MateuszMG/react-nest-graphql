@@ -1,0 +1,5 @@
+subscription HighlightedProductUpdated {
+  highlightedProductUpdated {
+    ...Product
+  }
+}

@@ -1,9 +1,10 @@
 import { EditProductInput, ProductInput } from './product.input';
-import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { Args, Mutation, Query, Resolver, Subscription } from '@nestjs/graphql';
 import { Product } from './product.model';
 import { ProductService } from './product.service';
 import { IdInput } from 'src/types/input.type';
 import { ResMessage } from 'src/types/object.type';
+import { pubSub, triggerNames } from 'src/config/PubSub';
 
 @Resolver()
 export class ProductResolver {
@@ -32,5 +33,19 @@ export class ProductResolver {
   @Mutation(() => ResMessage)
   async changeActiveProduct(@Args('input') input: IdInput) {
     return await this.productService.changeActiveProduct(input);
+  }
+
+  @Query(() => Product)
+  async getHighlightedProduct() {
+    return await this.productService.getHighlightedProduct();
+  }
+
+  @Subscription(() => Product, {
+    name: triggerNames.highlightedProductUpdated,
+    defaultValue: null,
+    nullable: true,
+  })
+  async highlightedProductUpdated() {
+    return pubSub.asyncIterator(triggerNames.highlightedProductUpdated);
   }
 }
