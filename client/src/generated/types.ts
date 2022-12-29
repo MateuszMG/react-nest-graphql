@@ -1,5 +1,6 @@
 import { gql } from '@apollo/client';
 import * as Apollo from '@apollo/client';
+import { FieldPolicy, FieldReadFunction, TypePolicies, TypePolicy } from '@apollo/client/cache';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
@@ -773,3 +774,113 @@ export function useChangeTitleMutation(baseOptions?: Apollo.MutationHookOptions<
 export type ChangeTitleMutationHookResult = ReturnType<typeof useChangeTitleMutation>;
 export type ChangeTitleMutationResult = Apollo.MutationResult<ChangeTitleMutation>;
 export type ChangeTitleMutationOptions = Apollo.BaseMutationOptions<ChangeTitleMutation, ChangeTitleMutationVariables>;
+export type AccessTokenKeySpecifier = ('accessToken' | AccessTokenKeySpecifier)[];
+export type AccessTokenFieldPolicy = {
+	accessToken?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type BookKeySpecifier = ('author' | 'id' | 'title' | BookKeySpecifier)[];
+export type BookFieldPolicy = {
+	author?: FieldPolicy<any> | FieldReadFunction<any>,
+	id?: FieldPolicy<any> | FieldReadFunction<any>,
+	title?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type DecodedUserKeySpecifier = ('email' | 'id' | 'logged' | 'roles' | 'username' | DecodedUserKeySpecifier)[];
+export type DecodedUserFieldPolicy = {
+	email?: FieldPolicy<any> | FieldReadFunction<any>,
+	id?: FieldPolicy<any> | FieldReadFunction<any>,
+	logged?: FieldPolicy<any> | FieldReadFunction<any>,
+	roles?: FieldPolicy<any> | FieldReadFunction<any>,
+	username?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type MutationKeySpecifier = ('addProduct' | 'changeActiveProduct' | 'changeTitle' | 'deleteProduct' | 'editProduct' | 'login' | 'register' | MutationKeySpecifier)[];
+export type MutationFieldPolicy = {
+	addProduct?: FieldPolicy<any> | FieldReadFunction<any>,
+	changeActiveProduct?: FieldPolicy<any> | FieldReadFunction<any>,
+	changeTitle?: FieldPolicy<any> | FieldReadFunction<any>,
+	deleteProduct?: FieldPolicy<any> | FieldReadFunction<any>,
+	editProduct?: FieldPolicy<any> | FieldReadFunction<any>,
+	login?: FieldPolicy<any> | FieldReadFunction<any>,
+	register?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type ProductKeySpecifier = ('active' | 'description' | 'fromBackend' | 'id' | 'image' | 'price' | 'quantity' | 'title' | ProductKeySpecifier)[];
+export type ProductFieldPolicy = {
+	active?: FieldPolicy<any> | FieldReadFunction<any>,
+	description?: FieldPolicy<any> | FieldReadFunction<any>,
+	fromBackend?: FieldPolicy<any> | FieldReadFunction<any>,
+	id?: FieldPolicy<any> | FieldReadFunction<any>,
+	image?: FieldPolicy<any> | FieldReadFunction<any>,
+	price?: FieldPolicy<any> | FieldReadFunction<any>,
+	quantity?: FieldPolicy<any> | FieldReadFunction<any>,
+	title?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type QueryKeySpecifier = ('getBooks' | 'getHighlightedProduct' | 'getProducts' | 'getTodos' | 'logout' | 'profile' | QueryKeySpecifier)[];
+export type QueryFieldPolicy = {
+	getBooks?: FieldPolicy<any> | FieldReadFunction<any>,
+	getHighlightedProduct?: FieldPolicy<any> | FieldReadFunction<any>,
+	getProducts?: FieldPolicy<any> | FieldReadFunction<any>,
+	getTodos?: FieldPolicy<any> | FieldReadFunction<any>,
+	logout?: FieldPolicy<any> | FieldReadFunction<any>,
+	profile?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type ResMessageKeySpecifier = ('message' | ResMessageKeySpecifier)[];
+export type ResMessageFieldPolicy = {
+	message?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type SubscriptionKeySpecifier = ('highlightedProductUpdated' | SubscriptionKeySpecifier)[];
+export type SubscriptionFieldPolicy = {
+	highlightedProductUpdated?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type TodoKeySpecifier = ('description' | 'done' | 'id' | 'title' | TodoKeySpecifier)[];
+export type TodoFieldPolicy = {
+	description?: FieldPolicy<any> | FieldReadFunction<any>,
+	done?: FieldPolicy<any> | FieldReadFunction<any>,
+	id?: FieldPolicy<any> | FieldReadFunction<any>,
+	title?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type TodosKeySpecifier = ('todos' | TodosKeySpecifier)[];
+export type TodosFieldPolicy = {
+	todos?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type StrictTypedTypePolicies = {
+	AccessToken?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | AccessTokenKeySpecifier | (() => undefined | AccessTokenKeySpecifier),
+		fields?: AccessTokenFieldPolicy,
+	},
+	Book?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | BookKeySpecifier | (() => undefined | BookKeySpecifier),
+		fields?: BookFieldPolicy,
+	},
+	DecodedUser?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | DecodedUserKeySpecifier | (() => undefined | DecodedUserKeySpecifier),
+		fields?: DecodedUserFieldPolicy,
+	},
+	Mutation?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | MutationKeySpecifier | (() => undefined | MutationKeySpecifier),
+		fields?: MutationFieldPolicy,
+	},
+	Product?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | ProductKeySpecifier | (() => undefined | ProductKeySpecifier),
+		fields?: ProductFieldPolicy,
+	},
+	Query?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | QueryKeySpecifier | (() => undefined | QueryKeySpecifier),
+		fields?: QueryFieldPolicy,
+	},
+	ResMessage?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | ResMessageKeySpecifier | (() => undefined | ResMessageKeySpecifier),
+		fields?: ResMessageFieldPolicy,
+	},
+	Subscription?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | SubscriptionKeySpecifier | (() => undefined | SubscriptionKeySpecifier),
+		fields?: SubscriptionFieldPolicy,
+	},
+	Todo?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | TodoKeySpecifier | (() => undefined | TodoKeySpecifier),
+		fields?: TodoFieldPolicy,
+	},
+	Todos?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | TodosKeySpecifier | (() => undefined | TodosKeySpecifier),
+		fields?: TodosFieldPolicy,
+	}
+};
+export type TypedTypePolicies = StrictTypedTypePolicies & TypePolicies;
